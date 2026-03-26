@@ -1,5 +1,8 @@
-import espress from 'express';
+import express from 'express';
 
-const app = espress();
+import userRouter from './routes/user.route.js';
 
+const app = express();
+app.use(express.json());
+app.use("/api/v1/users", userRouter);
 export default app;
