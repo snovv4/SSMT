@@ -1,4 +1,4 @@
-import { Post } from '../models/post.model.js';
+import { Post } from '../models/index.js';
 
 const createPost = async (req, res) => {
     try {
