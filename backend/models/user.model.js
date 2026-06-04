@@ -1,52 +1,54 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     username: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-        trim: true,
-        minlength: 3,
-        maxlength: 30
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      minlength: 3,
+      maxlength: 30,
     },
 
     password: {
-        type: String,
-        required: true,
-        minlength: 4,
-        maxlength: 100,
+      type: String,
+      required: true,
+      minlength: 4,
+      maxlength: 100,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-        trim: true
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
     },
     role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'user',
-    }
-}, {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+  },
+  {
     timestamps: true,
-})
+  },
+);
 
-userSchema.pre("save", async function (){
-    try {
-        if (!this.isModified("password")) return;
-
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-    } catch (err) {
-        throw err;
-    }
+userSchema.pre("save", async function () {
+  try {
+    if (!this.isModified("password")) return;
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  } catch (err) {
+    throw err;
+  }
 });
 
 userSchema.methods.comparePassword = async function (password) {
-    return await bcrypt.compare(password, this.password)
-}
+  return await bcrypt.compare(password, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 
