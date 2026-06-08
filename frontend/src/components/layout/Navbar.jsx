@@ -7,13 +7,13 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <nav className="border-b border-gray-200 sticky top-0 z-50 bg-[#121212]">
       
       {/* Main bar */}
       <div className="flex items-center justify-between px-8 h-16">
         
         <div className="flex items-center gap-16">
-          <Link to="/" className="text-3xl font-bold text-gray-900 tracking-wide no-underline">
+          <Link to="/" className="text-3xl font-bold tracking-wide no-underline text-[#ffffff]">
             SSMT
           </Link>
           {/* Links — ẩn khi màn hình nhỏ hơn md */}
