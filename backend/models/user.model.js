@@ -11,7 +11,6 @@ const userSchema = new Schema(
       minlength: 3,
       maxlength: 30,
     },
-
     password: {
       type: String,
       required: true,
@@ -25,9 +24,27 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    avatar: {
+      type: String,
+      default: "",
+    },
+    phone: {
+      type: String,
+      trim: true,
+      maxlength: 20,
+    },
+    address: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "seller", "admin"],
       default: "user",
     },
   },
@@ -36,13 +53,14 @@ const userSchema = new Schema(
   },
 );
 
-userSchema.pre("save", async function () {
+userSchema.pre("save", async function (next) {
   try {
     if (!this.isModified("password")) return;
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+    next;
   } catch (err) {
-    throw err;
+    next(err);
   }
 });
 

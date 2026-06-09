@@ -1,12 +1,17 @@
 import { Router } from "express";
-import { createItem } from "../controllers/item.controller.js";
-import { getItems } from "../controllers/item.controller.js";
-import { deleteItem } from "../controllers/item.controller.js";
+import {
+  createItem,
+  getItems,
+  getItemById,
+  deleteItem,
+} from "../controllers/item.controller.js";
 import authMiddleware from "../middleware/auth.middleware.js";
+import { upload } from "../config/cloudinary.js";
 
 const router = Router();
-router.post("/create", authMiddleware, createItem);
-router.get("/getItems", getItems);
-router.delete("/delete/:id", authMiddleware, deleteItem);
+router.post("/", authMiddleware, upload.array("images", 5), createItem);
+router.get("/:id", getItemById);
+router.get("/", getItems);
+router.delete("/:id", authMiddleware, deleteItem);
 
 export default router;
