@@ -89,6 +89,49 @@ const getItemById = async (req, res) => {
   }
 };
 
+const getItemByCategory = async (req, res) => {
+  try {
+    const item = await Item.find({ category: req.params.category }).sort({
+      createdAt: -1,
+    });
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found",
+      });
+    }
+    res.status(200).json({
+      item,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+const updateItem = async (req, res) => {
+  try {
+    const item = await Item.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found",
+      });
+    }
+    res.status(200).json({
+      message: "Item updated",
+      item,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
 const deleteItem = async (req, res) => {
   try {
     const item = await Item.findByIdAndDelete(req.params.id);
@@ -108,4 +151,32 @@ const deleteItem = async (req, res) => {
   }
 };
 
-export { createItem, getItems, getItemById, deleteItem };
+const searchItem = async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q) {
+      return res.status(400).json({
+        message: "Search query is required",
+      });
+    }
+    const items = await Item.find({
+      name: { $regex: q, $option: "i" },
+    }).sort({ createdAt: -1 });
+    res.status(200).json({ items });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+export {
+  createItem,
+  getItems,
+  getItemById,
+  getItemByCategory,
+  updateItem,
+  deleteItem,
+  searchItem,
+};
