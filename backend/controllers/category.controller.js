@@ -12,8 +12,14 @@ const createCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find();
-    res.status(200).json({ categories });
+    const parents = await Category.find({ parent: null });
+    const result = await Promise.all(
+      parents.map(async (parent) => {
+        const children = await Category.find({ parent: parent._id });
+        return { ...parent.toObject(), children };
+      }),
+    );
+    res.status(200).json({ categories: result });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }

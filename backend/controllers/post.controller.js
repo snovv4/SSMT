@@ -10,6 +10,7 @@ const createPost = async (req, res) => {
       title,
       content,
       age,
+      author: req.user.userId,
     });
     res.status(200).json({
       message: "Post created",

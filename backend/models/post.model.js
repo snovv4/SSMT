@@ -1,30 +1,35 @@
 import mongoose, { Schema } from "mongoose";
 
-const postSchema = new Schema({
-    title:{
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 100,
-
+const postSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 100,
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     content: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 5000,
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 5000,
     },
     age: {
-        type: Number,
-        required: true,
-        min: 0,
-        max: 44
-    }
-
-    
-},{
+      type: Number,
+      required: true,
+      min: 0,
+      max: 44,
+    },
+  },
+  {
     timestamps: true,
-});
+  },
+);
 
 const Post = mongoose.model("Post", postSchema);
 export default Post;
