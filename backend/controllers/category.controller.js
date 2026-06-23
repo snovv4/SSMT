@@ -2,8 +2,8 @@ import { Category } from "../models/index.js";
 
 const createCategory = async (req, res) => {
   try {
-    const { name, slug, icon } = req.body;
-    const category = await Category.create({ name, slug, icon });
+    const { name, slug, icon, parent } = req.body;
+    const category = await Category.create({ name, slug, icon, parent });
     res.status(201).json({ message: "Category created", category });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
