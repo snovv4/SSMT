@@ -26,7 +26,7 @@ function Navbar() {
 
         {/* Actions — ẩn khi màn hình nhỏ hơn md */}
         <div className="hidden md:flex items-center gap-4">
-          <div className="flex items-center rounded-md overflow-hidden w-44 lg:w-72 xl:w-96">
+          <div className="flex items-center rounded-md overflow-hidden w-96 pl-4">
             <Searchbar />
           </div>
           <Link to="/cart" className="no-underline hover:scale-110 transition-transform">
@@ -49,7 +49,9 @@ function Navbar() {
       {/* Mobile menu — chỉ hiện khi menuOpen = true */}
       {menuOpen && (
         <div className="bg-transparent md:hidden flex flex-col items-center px-8 pb-4 gap-3 border-t border-[#D32F2F]">
-          <Searchbar />
+          <div className= "pt-2 w-full">
+            <Searchbar />
+          </div>
           <Link to="/" className="text-[#FFFFFF] text-sm font-medium no-underline py-1 hover:text-[#D32F2F] transition-colors" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link to="/items" className="text-[#FFFFFF] text-sm font-medium no-underline py-1 hover:text-[#D32F2F] transition-colors" onClick={() => setMenuOpen(false)}>Items</Link>
           <Link to="/posts" className="text-[#FFFFFF] text-sm font-medium no-underline py-1 hover:text-[#D32F2F] transition-colors" onClick={() => setMenuOpen(false)}>Posts</Link>
