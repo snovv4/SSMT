@@ -1,14 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { getCategories } from '../../../services/categoryService.js'
 import categoryIcons from '../../../utils/categoriesIcon.jsx'
-import { CreditCard, Utensils, Shirt, Laptop, BookOpen } from 'lucide-react'
-
-const categories = [
-  { name: "Cards", icon: <CreditCard size={32} />, slug: "cards" },
-  { name: "Food", icon: <Utensils size={32} />, slug: "food" },
-  { name: "Clothing", icon: <Shirt size={32} />, slug: "clothing" },
-  { name: "Electronics", icon: <Laptop size={32} />, slug: "electronics" },
-  { name: "Books", icon: <BookOpen size={32} />, slug: "books" },
-]
 
 const featuredItems = [
   { id: 1, name: "Sample Item 1", price: 99000, image: "https://placehold.co/300x200" },
@@ -18,6 +11,11 @@ const featuredItems = [
 ]
 
 function Home() {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        getCategories().then(data => setCategories(data))
+    }, [])
   return (
     <div className="min-h-screen bg-[#121212]">
 
@@ -44,7 +42,7 @@ function Home() {
                     to={`/items?category=${cat.slug}`}
                     className="flex flex-col items-center gap-2 rounded-xl py-6 transition-all no-underline bg-[#1E1E1E] border border-[#2a2a2a] hover:border-[#D32F2F]"
                 >
-                <span className="text-[#D32F2F]">{cat.icon}</span>
+                <span className="text-[#D32F2F]">{categoryIcons[cat.slug]}</span>
                 <span className="text-sm font-medium text-[#A0A0A0]">{cat.name}</span>
                 </Link>
             ))}
